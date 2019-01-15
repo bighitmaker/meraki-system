@@ -1,0 +1,45 @@
+{
+  "name": "bitcoin-badger-buttons",
+  "version": "0.0.1",
+  "description": "Badger Buttons for your next Bitcoin Cash (BCH) powered application",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode=production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitcoin-com/badger-buttons.git"
+  },
+  "keywords": [
+    "Bitcoin Cash",
+    "BCH",
+    "react",
+    "Badger",
+    "badger buttons",
+    "components"
+  ],
+  "author": "Peter Zenger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bitcoin-com/badger-buttons/issues"
+  },
+  "homepage": "https://github.com/bitcoin-com/badger-buttons#readme",
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.0"
+  },
+  "dependencies": {
+    "react": "^16.7.0",
+    "styled-components": "^4.1.3"
+  }
+}
