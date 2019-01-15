@@ -1,6 +1,6 @@
 {
   "name": "meraki-system",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Meraki system is a set of re-useable React components.",
   "main": "dist/merakiDesign.js",
   "scripts": {
