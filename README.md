@@ -1,6 +1,6 @@
-<p align="center">
+<h1 align="center">
   Meraki System
-</p>
+</h1>
 
  > Meraki System is a set of React components and tools.  Mainly developed for personal use.
 
