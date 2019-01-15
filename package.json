@@ -2,7 +2,7 @@
   "name": "meraki-system",
   "version": "0.0.1",
   "description": "Meraki system is a set of re-useable React components.",
-  "main": "dist/main.js",
+  "main": "dist/merakiDesign.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode=production",

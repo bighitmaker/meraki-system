@@ -39,7 +39,7 @@ const path = require('path');
 	output: {
 		path: path.resolve(__dirname, 'dist/'),
 		publicPath: '',
-		filename: 'badgerButton.js',
+		filename: 'merakiDesign.js',
 		libraryTarget: 'umd',
 	},
 };
