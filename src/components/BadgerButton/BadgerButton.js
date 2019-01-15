@@ -12,9 +12,11 @@ const Main = styled.button`
 
 class BadgerButton extends React.Component {
   render() {
-    const {children} = this.props;
+    const {children, ...rest} = this.props;
     return (
-      <Main {...props}>{children}</Main>
+      <Main {...rest}>{children}</Main>
     )
   }
 }
+
+export default BadgerButton;
