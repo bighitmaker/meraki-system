@@ -20,8 +20,8 @@ $ npm install --save meraki-system
  To develop and interact with your components using Storybook. Run the local server. simply run:
 
  ```bash
-$ npm i
-$ npm run storybook
+  $ npm i
+  $ npm run storybook
 ```
 
  Navigate to [http://localhost:6006](http://localhost:6006) to view your stories. They automatically update as you develop ✨.
@@ -31,10 +31,16 @@ $ npm run storybook
  To build a static version of storybook for deployment
 
  ```bash
- $ npm run build-storybook
- $ cd /storybook-static
+  $ npm run build-storybook
+  $ cd /storybook-static
  ```
 
+
+### Local development in local projects
+
+```bash
+  npm link
+```
 
 ### Add to React project code
 

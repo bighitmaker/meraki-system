@@ -1,5 +1,4 @@
-// @flow
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,10 +11,10 @@ import {
   formatPriceDisplay
 } from '../../utils/badger-helpers';
 
-// import Text from '../atoms/Text'
-import colors from '../../styles/colors'
-import BitcoinCashLogoImage from '../../images/bitcoin-cash-logo.svg'
 import BitcoinCashImage from '../../images/bitcoin-cash.svg'
+import colors from '../../styles/colors';
+
+// TODO - Import custom FA icon as needed, don't pull in whole thing
 
 const BadgerText = styled.p`
   font-size: 18px;
@@ -26,47 +25,37 @@ const BadgerText = styled.p`
 const BButton = styled.button`
   cursor: pointer;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   background-color: ${props => (props.color2 ? props.color2 : colors.bg)};
   border: 2px solid
     ${props => (props.color1 ? props.color1 : colors.bchOrange)};
-  padding: 6px 15px;
+  padding: 6px 10px;
   color: ${props => (props.color1 ? props.color1 :colors.bchOrange)};
   &:hover {
     background-color: ${props =>
       props.color1 ? props.color1 : colors.bchOrange};
     color: ${props => (props.color2 ? props.color2 : colors.bg)};
   }
+  }
 `
-
-const SatoshiText = styled.p`
-  font-size: 12px;
-  margin: 3px 0 0 0;
-  display: grid;
-  grid-template-columns: max-content max-content max-content;
-  justify-content: end;
-  grid-gap: 5px;
-  align-items: center;
-`
-
 const Loader = styled.div`
   height: 20px;
-  width: 75%;
-  background-color: ${colors.fg100};
+  width: 100%;
+  background-color: ${colors.fg};
   border-radius: 10px;
   display: flex;
   overflow: hidden;
 `
 
 const CompleteCircle = styled.div`
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: ${colors.bchOrange};
-  color: ${props => props.theme.bg};
+  color: ${colors.bg};
 `
 
 const FillerDiv = styled.div`
@@ -80,16 +69,54 @@ const Small = styled.span`
   font-weight: 700;
 `
 
-const Wrapper = styled.div`
+const Main = styled.div`
   display: grid;
-  grid-template-columns: max-content;
-  grid-template-rows: max-content max-content;
-  color: ${props => (props.color1 ? props.color1 : colors.bchGrey)};
+  grid-gap: 12px;
+  padding: 15px 8px 6px;
+  border: 2px solid
+    ${props => (props.color3 ? props.color3 : colors.bchGrey)};
+  border-radius: 7px;
+  background-color: ${props => (props.color2 ? props.color2 : 'inherit')};
+  color: ${props => (props.color3 ? props.color3 : 'inherit')};
+
+  background-color: red;
 `
 
-// Pending State filler
-// type PropsFiller = {}
-// type StateFiller = { width: number }
+const Prices = styled.div`
+  display: grid;
+  grid-template-columns: max-content max-content;
+  grid-gap: 5px;
+  align-items: end;
+  justify-content: end;
+`
+const PriceText = styled.p`
+  font-size: 18px;
+  line-height: 18px;
+  margin: 0;
+`
+
+const HeaderText = styled.h3`
+  font-size: 24px;
+  line-height: 24px;
+  margin: 0;
+  font-weight: 400;
+`
+const ButtonContainer = styled.div`
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`
+
+const BrandBottom = styled.div``
+
+const A = styled.a`
+  color: ${props => (props.color3 ? props.color3 : colors.bchGrey)};
+  text-decoration: none;
+  &:hover {
+    color: ${props => (props.color1 ? props.color1 : colors.bchOrange)};
+  }
+`
 
 class Filler extends React.Component {
   constructor(props) {
@@ -107,16 +134,19 @@ class Filler extends React.Component {
 
 
 // Main Badger Button
+// TODO - Re-add flow to library, or TS
 // type Props = {
 //   to: string,
 //   text?: string,
+//   tag: string,
 //   price: number,
-//   showSatoshis: boolean,
+//   showSatoshis?: boolean,
+//   showBrand?: boolean,
 //   currency: CurrencyCode,
-//   children?: React.Node,
 
 //   color1?: string,
 //   color2?: string,
+//   color3?: string,
 
 //   successFn: Function,
 //   failFn?: Function,
@@ -135,6 +165,8 @@ class BadgerButton extends React.Component {
   static defaultProps = {
     currency: 'USD',
     showSatoshis: true,
+    tag: 'Donate BCH',
+    showBrand: true,
   }
 
   constructor(props) {
@@ -163,7 +195,7 @@ class BadgerButton extends React.Component {
     this.priceInterval && clearInterval(this.priceInterval)
   }
 
-  async updateBCHPrice(currency ) {
+  async updateBCHPrice(currency) {
     const priceRequest = await fetch(buildPriceEndpoint(currency))
     const result = await priceRequest.json()
 
@@ -206,8 +238,8 @@ class BadgerButton extends React.Component {
           this.setState({ step: 'fresh' })
         } else {
           console.log('BadgerButton send success:', res)
-          this.setState({ step: 'complete' })
           successFn(res)
+          this.setState({ step: 'complete' })
         }
       })
     } else {
@@ -222,9 +254,11 @@ class BadgerButton extends React.Component {
       price,
       currency,
       showSatoshis,
+      tag,
+      showBrand,
       color1,
       color2,
-      children,
+      color3,
     } = this.props
 
     const priceInCurrency = BCHPrice[currency] && BCHPrice[currency].price
@@ -238,40 +272,58 @@ class BadgerButton extends React.Component {
       ).toFixed(8)
     }
 
-    if (step === 'fresh') {
-      return (
-        <Wrapper color1={color1}>
-          <BButton onClick={this.handleClick} color1={color1} color2={color2}>
-            {children || <Text style={{ lineHeight: '1.3em' }}>{text}</Text>}
-            <BadgerText style={{ lineHeight: '1.2em', fontSize: 24 }}>
-              {getCurrencyPreSymbol(currency)} {formatPriceDisplay(price)}
-              {getCurrencyPostSymbol(currency)} <Small> {currency}</Small>
-            </BadgerText>
-          </BButton>
+    return (
+      <Main color1={color1} color2={color2} color3={color3}>
+        <HeaderText>{text}</HeaderText>
+        <Prices>
+          <PriceText style={{ textAlign: 'right', lineHeight: '' }}>
+            {getCurrencyPreSymbol(currency)} {formatPriceDisplay(price)}{' '}
+            {getCurrencyPostSymbol(currency)}{' '}
+          </PriceText>
+          <Small>{currency}</Small>
           {showSatoshis && (
-            <SatoshiText>
-              <img src={BitcoinCashImage} style={{ height: 14 }} alt="BCH" />{' '}
-              BCH {satoshiDisplay}
-            </SatoshiText>
+            <>
+              <PriceText>
+                <img src={BitcoinCashImage} style={{ height: 14 }} alt="BCH" />{' '}
+                {satoshiDisplay}{' '}
+              </PriceText>
+              <Small>BCH</Small>
+            </>
           )}
-        </Wrapper>
-      )
-    }
-    if (step === 'pending') {
-      return (
-        <Loader>
-          <Filler />
-        </Loader>
-      )
-    }
-    if (step === 'complete') {
-      return (
-        <CompleteCircle>
-          <FontAwesomeIcon icon={faCheck} />
-        </CompleteCircle>
-      )
-    }
-    return <div>State not found</div>
+        </Prices>
+        <ButtonContainer>
+          {step === 'fresh' ? (
+            <BButton onClick={this.handleClick} color1={color1} color2={color2}>
+              <BadgerText style={{ lineHeight: '1.2em', fontSize: 18 }}>
+                {tag}
+              </BadgerText>
+            </BButton>
+          ) : step === 'pending' ? (
+            <Loader>
+              <Filler />
+            </Loader>
+          ) : (
+            <CompleteCircle>
+              <FontAwesomeIcon icon={faCheck} />
+            </CompleteCircle>
+          )}
+        </ButtonContainer>
+        {showBrand && (
+          <BrandBottom>
+            <Small>
+              <A
+                href="badger.bitcoin.com"
+                target="_blank"
+                color1={color1}
+                color3={color3}
+              >
+                badger.bitcoin.com
+              </A>
+            </Small>
+          </BrandBottom>
+        )}
+      </Main>
+    )
   }
 }
 

@@ -23,7 +23,7 @@ const path = require('path');
 				],
 			},
 			{
-				test: /\.(png|gif|jpg|svg)$/,
+				test: /\.(png|gif|jpg)$/,
 				use: {
 					loader: 'url-loader',
 					options: {
@@ -31,6 +31,13 @@ const path = require('path');
 					},
 				},
 			},
+			{
+				test: /\.svg/,
+				use: {
+						loader: 'svg-url-loader',
+						options: {}
+				}
+		}
 		],
 	},
 	resolve: {
