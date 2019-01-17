@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import styled from 'styled-components';
 
@@ -17,6 +19,8 @@ import colors from '../../styles/colors';
 
 import Button from '../../atoms/Button'
 
+
+const PRICE_UPDATE_INTERVAL = 60 * 1000;
 // TODO - Import custom FA icon as needed, don't pull in whole thing
 
 const Main = styled.div`
@@ -71,13 +75,13 @@ const CompleteCircle = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: ${colors.bchOrange};
+	background-color: ${colors.brand500};
 	color: ${colors.bg};
 `;
 
 const FillerDiv = styled.div`
 	width: ${(props) => props.width}%;
-	background-color: ${colors.bchOrange};
+	background-color: ${colors.brand500};
 	transition: 3s all ease;
 `;
 
@@ -120,15 +124,19 @@ const A = styled.a`
 	color: ${(props) => (props.color3 ? props.color3 : colors.bchGrey)};
 	text-decoration: none;
 	&:hover {
-		color: ${(props) => (props.color1 ? props.color1 : colors.bchOrange)};
+		color: ${(props) => (props.color1 ? props.color1 : colors.brand500)};
 	}
 `;
 
-class Filler extends React.Component {
+type FillerProps = {};
+type FillerState = { width: number}
+
+class Filler extends React.Component<FillerProps, FillerState> {
 	constructor(props) {
 		super(props);
 		this.state = { width: 1 };
 	}
+
 	componentDidMount() {
 		setTimeout(() => this.setState({ width: 100 }), 250);
 	}
@@ -138,35 +146,37 @@ class Filler extends React.Component {
 	}
 }
 
+// Currency endpoints, logic, and formatters
+type CurrencyCode = 'USD' | 'CAD' | 'HKD' | 'JPY' | 'GBP' | 'EUR' | 'CNY'
+
 // Main Badger Button
-// TODO - Re-add flow to library, or TS
-// type Props = {
-//   to: string,
-//   text?: string,
-//   tag: string,
-//   price: number,
-//   showSatoshis?: boolean,
-//   showBrand?: boolean,
-//   currency: CurrencyCode,
+type Props = {
+  to: string,
+  text?: string,
+  tag: string,
+  price: number,
+  showSatoshis?: boolean,
+  showBrand?: boolean,
+  currency: CurrencyCode,
 
-//   color1?: string,
-//   color2?: string,
-//   color3?: string,
+  color1?: string,
+  color2?: string,
+  color3?: string,
 
-//   successFn: Function,
-//   failFn?: Function,
-// }
-// type State = {
-//   step: 'fresh' | 'pending' | 'complete',
-//   BCHPrice: {
-//     [currency: CurrencyCode]: {
-//       price: ?number,
-//       stamp: ?number,
-//     },
-//   },
-// }
+  successFn: Function,
+  failFn?: Function,
+}
+type State = {
+  step: 'fresh' | 'pending' | 'complete',
+  BCHPrice: {
+    [currency: CurrencyCode]: {
+      price: ?number,
+      stamp: ?number,
+    },
+  },
+}
 
-class BadgerButton extends React.Component {
+class BadgerButton extends React.Component<Props, State> {
 	static defaultProps = {
 		currency: 'USD',
 		showSatoshis: true,
@@ -179,7 +189,7 @@ class BadgerButton extends React.Component {
 		BCHPrice: {},
 	};
 
-	updateBCHPrice = async (currency) => {
+	updateBCHPrice = async (currency: CurrencyCode) => {
 		const priceRequest = await fetch(buildPriceEndpoint(currency));
 		const result = await priceRequest.json();
 
@@ -238,13 +248,26 @@ class BadgerButton extends React.Component {
 		this.updateBCHPrice(currency);
 		this.priceInterval = setInterval(
 			() => this.updateBCHPrice(currency),
-			1000 * 60
+			PRICE_UPDATE_INTERVAL
 		);
 	}
 
 	componentWillUnmount() {
 		this.priceInterval && clearInterval(this.priceInterval);
 	}
+
+	componentDidUpdate(prevProps, prevState) {
+		const { currency } = this.props;
+		const prevCurrency = prevProps.currency;
+		if(currency !== prevCurrency) {
+			console.log('update called')
+		
+			// Clear previous price interval, set a new one, and immediately update price
+			this.priceInterval && clearInterval(this.priceInterval);
+			this.priceInterval = setInterval(() => this.updateBCHPrice(currency), PRICE_UPDATE_INTERVAL)
+			this.updateBCHPrice(currency)
+		}
+	} 
 
 	render() {
 		const { step, BCHPrice } = this.state;

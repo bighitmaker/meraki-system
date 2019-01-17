@@ -1,5 +1,8 @@
 const colors = {
-  bchOrange: '#F59332',
+  bchOrange500: '#F59332',
+  brand100: '#F5DDC5',
+  brand500: '#F59332',
+  brand700: '#F57A00',
   bchGrey: '#4d4d4d',
   bg: '#ffffff',
   fg100: '#ccc',

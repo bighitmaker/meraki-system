@@ -29,12 +29,12 @@ const BButton = styled.button`
   border-radius: 10px;
   background-color: ${props => (props.color2 ? props.color2 : colors.bg)};
   border: 2px solid
-    ${props => (props.color1 ? props.color1 : colors.bchOrange)};
+    ${props => (props.color1 ? props.color1 : colors.brand500)};
   padding: 6px 15px;
-  color: ${props => (props.color1 ? props.color1 :colors.bchOrange)};
+  color: ${props => (props.color1 ? props.color1 :colors.brand500)};
   &:hover {
     background-color: ${props =>
-      props.color1 ? props.color1 : colors.bchOrange};
+      props.color1 ? props.color1 : colors.brand500};
     color: ${props => (props.color2 ? props.color2 : colors.bg)};
   }
 `
@@ -65,13 +65,13 @@ const CompleteCircle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${colors.bchOrange};
+  background-color: ${colors.brand500};
   color: ${props => props.theme.bg};
 `
 
 const FillerDiv = styled.div`
   width: ${props => props.width}%;
-  background-color: ${colors.bchOrange};
+  background-color: ${colors.brand500};
   transition: 3s all ease;
 `
 
