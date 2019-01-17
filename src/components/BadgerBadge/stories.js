@@ -14,10 +14,12 @@ storiesOf('BadgerBadge', module).add(
 				currency={text('Currency', "USD")}
 				to={text('To Address', "bitcoincash:qrh335l4sn9rhr8jk23zympmvfud07lttufc7l6qdy")}
 				tag={text('Button Text', "Badger Pay")}
-				text={text('Top Text', "Send BCH")}
+				text={text('Top Text', "Payment Total")}
+				showBrand={boolean('Show Brand', true)}
+				showSatoshis={boolean('Show Satoshis', true)}
         successFn={() => console.log('success')}
         failFn={() => console.log('fail')}
-			/>
+			/>	
 		</div>
 	),
 	{
