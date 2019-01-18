@@ -20,6 +20,7 @@ const ButtonElement = styled.button`
 		props.isFresh &&
 		css`
 			cursor: pointer;
+      
 			box-shadow: 1px 1px 1px ${colors.bchGrey};
 			background-color: ${colors.brand500};
 			
@@ -36,6 +37,7 @@ const ButtonElement = styled.button`
 
 const cover = css`
 	position: absolute;
+  border: 1px solid ${colors.brand700};
 	border-radius: 4px;
 	top: 0;
 	bottom: 0;
@@ -49,11 +51,13 @@ const cover = css`
 
 const PendingCover = styled.div`
   ${cover};
+  border-color: ${colors.pending700};
 	background-color: ${colors.pending500};
 `;
 
 const CompleteCover = styled.div`
   ${cover};
+  border-color: ${colors.succcess700};
   background-color: ${colors.success500};
 `
 

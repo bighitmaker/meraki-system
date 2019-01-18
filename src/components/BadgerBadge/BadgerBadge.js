@@ -60,32 +60,6 @@ const HeaderText = styled.h3`
 	font-weight: 400;
 `;
 
-const Loader = styled.div`
-	height: 20px;
-	width: 100%;
-	background-color: ${colors.fg};
-	border-radius: 10px;
-	display: flex;
-	overflow: hidden;
-`;
-
-const CompleteCircle = styled.div`
-	width: 40px;
-	height: 40px;
-	border-radius: 20px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: ${colors.brand500};
-	color: ${colors.bg};
-`;
-
-const FillerDiv = styled.div`
-	width: ${(props) => props.width}%;
-	background-color: ${colors.brand500};
-	transition: 3s all ease;
-`;
-
 const Small = styled.span`
 	font-size: 12px;
 	font-weight: 700;
@@ -106,47 +80,27 @@ const BrandBottom = styled.div`
 `;
 
 const A = styled.a`
-	color: ${(props) => (props.color3 ? props.color3 : colors.bchGrey)};
+	color: ${colors.bchGrey};
 	text-decoration: none;
 	&:hover {
-		color: ${(props) => (props.color1 ? props.color1 : colors.brand500)};
+		color: ${colors.brand500};
 	}
 `;
-
-type FillerProps = {};
-type FillerState = { width: number };
-
-class Filler extends React.Component<FillerProps, FillerState> {
-	constructor(props) {
-		super(props);
-		this.state = { width: 1 };
-	}
-
-	componentDidMount() {
-		setTimeout(() => this.setState({ width: 100 }), 250);
-	}
-	render() {
-		const { width } = this.state;
-		return <FillerDiv width={width} />;
-	}
-}
 
 // Currency endpoints, logic, and formatters
 type CurrencyCode = 'USD' | 'CAD' | 'HKD' | 'JPY' | 'GBP' | 'EUR' | 'CNY';
 
-// Main Badger Button
+// Badger Badge Props
 type Props = {
 	to: string,
-	text?: string,
-	tag: string,
 	price: number,
-	showSatoshis?: boolean,
-	showBrand?: boolean,
 	currency: CurrencyCode,
 
-	color1?: string,
-	color2?: string,
-	color3?: string,
+	text?: string,
+	tag?: string,
+	showSatoshis?: boolean,
+	showBrand?: boolean,
+	
 
 	successFn: Function,
 	failFn?: Function,
@@ -165,8 +119,9 @@ class BadgerButton extends React.Component<Props, State> {
 	static defaultProps = {
 		currency: 'USD',
 		showSatoshis: true,
-		tag: 'Donate BCH',
+		tag: 'Badger Pay',
 		showBrand: true,
+		text: 'Payment Total'
 	};
 
 	state = {
@@ -265,15 +220,12 @@ class BadgerButton extends React.Component<Props, State> {
 			showSatoshis,
 			tag,
 			showBrand,
-			color1,
-			color2,
-			color3,
 		} = this.props;
 
 		const priceInCurrency = BCHPrice[currency] && BCHPrice[currency].price;
 
 		return (
-			<Main color1={color1} color2={color2} color3={color3}>
+			<Main>
 				<HeaderText>{text}</HeaderText>
 				<Prices>
 					<PriceText style={{ textAlign: 'right' }}>
@@ -294,8 +246,6 @@ class BadgerButton extends React.Component<Props, State> {
 				<ButtonContainer>
 					<Button
 						onClick={this.handleClick}
-						color1={color1}
-						color2={color2}
 						step={step}
 					>
 						<ButtonText>{tag}</ButtonText>
@@ -307,10 +257,8 @@ class BadgerButton extends React.Component<Props, State> {
 								<A
 									href="badger.bitcoin.com"
 									target="_blank"
-									color1={color1}
-									color3={color3}
 								>
-									About Badger
+									What is Badger
 								</A>
 							</Small>
 						</BrandBottom>
