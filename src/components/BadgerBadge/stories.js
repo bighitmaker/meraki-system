@@ -62,8 +62,7 @@ storiesOf('BadgerBadge', module)
 		() => (
 			<div style={{ display: 'flex' }}>
 				<BadgerBadge
-					style={{ marginRight: 20 }}
-					price={0.01}
+					price={number('Price', 0.01)}
 					currency={select('Currency', currencyOptions, 'USD')}
 					to={text(
 						'To Address',

@@ -22,45 +22,19 @@ import Button from '../../atoms/Button';
 const PRICE_UPDATE_INTERVAL = 60 * 1000;
 
 const BadgerText = styled.p`
-	font-size: 18px;
-	line-height: 1.5em;
+	font-size: 20px;
+	line-height: 1.2em;
 	margin: 0;
 `;
 
 const SatoshiText = styled.p`
 	font-size: 12px;
-	margin: 3px 0 0 0;
+	margin: 0px 0 0 0;
 	display: grid;
 	grid-template-columns: max-content max-content max-content;
 	justify-content: end;
 	grid-gap: 5px;
 	align-items: center;
-`;
-
-const Loader = styled.div`
-	height: 20px;
-	width: 75%;
-	background-color: ${colors.fg100};
-	border-radius: 10px;
-	display: flex;
-	overflow: hidden;
-`;
-
-const CompleteCircle = styled.div`
-	width: 50px;
-	height: 50px;
-	border-radius: 25px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: ${colors.brand500};
-	color: ${(props) => props.theme.bg};
-`;
-
-const FillerDiv = styled.div`
-	width: ${(props) => props.width}%;
-	background-color: ${colors.brand500};
-	transition: 3s all ease;
 `;
 
 const Small = styled.span`
@@ -70,9 +44,10 @@ const Small = styled.span`
 
 const Wrapper = styled.div`
 	display: grid;
+	grid-gap: 5px;
 	font-family: sans-serif;
 	grid-template-columns: max-content;
-	grid-template-rows: max-content max-content;
+	grid-template-rows: max-content max-content max-content;
 	color: ${colors.bchGrey};
 `;
 
@@ -107,7 +82,6 @@ class BadgerButton extends React.Component<Props, State> {
 	static defaultProps = {
 		currency: 'USD',
 		showSatoshis: true,
-		text: 'Payment Total',
 	};
 
 	state = {
@@ -205,11 +179,9 @@ class BadgerButton extends React.Component<Props, State> {
 
 		return (
 			<Wrapper>
+			<BadgerText style={{textAlign: 'center', }}>{text}</BadgerText>
 				<Button onClick={this.handleClick} step={step}>
-					{children || (
-						<BadgerText style={{ lineHeight: '1.3em' }}>{text}</BadgerText>
-					)}
-					<BadgerText style={{ lineHeight: '1.2em', fontSize: 24 }}>
+					<BadgerText>
 						{getCurrencyPreSymbol(currency)} {formatPriceDisplay(price)}
 						{getCurrencyPostSymbol(currency)} <Small> {currency}</Small>
 					</BadgerText>
@@ -217,7 +189,7 @@ class BadgerButton extends React.Component<Props, State> {
 				{showSatoshis && (
 					<SatoshiText>
 						<img src={BitcoinCashImage} style={{ height: 14 }} alt="BCH" /> BCH{' '}
-						{getSatoshiDisplayValue(priceInCurrency, price)}
+						<span style={{fontFamily: 'monospace'}}>{getSatoshiDisplayValue(priceInCurrency, price)}</span>
 					</SatoshiText>
 				)}
 			</Wrapper>
