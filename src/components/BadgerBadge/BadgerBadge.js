@@ -3,8 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon, faCheck } from '@fortawesome/react-fontawesome';
 
 import {
 	buildPriceEndpoint,
@@ -20,14 +19,14 @@ import colors from '../../styles/colors';
 import Button from '../../atoms/Button';
 
 const PRICE_UPDATE_INTERVAL = 60 * 1000;
-// TODO - Import custom FA icon as needed, don't pull in whole thing
 
 const Main = styled.div`
 	font-family: sans-serif;
 	display: grid;
 	grid-gap: 24px;
 	padding: 12px 12px 6px;
-	border: 1px dashed ${(props) => (props.color3 ? props.color3 : colors.bchGrey)};
+	border: 1px dashed
+		${(props) => (props.color3 ? props.color3 : colors.bchGrey)};
 	border-radius: 4px;
 	background-color: ${(props) => (props.color2 ? props.color2 : 'inherit')};
 	color: ${(props) => (props.color3 ? props.color3 : 'inherit')};
@@ -35,10 +34,9 @@ const Main = styled.div`
 
 const ButtonText = styled.p`
 	font-size: 20px;
-	line-height: 1.2em;
+	line-height: 1em;
 	margin: 0;
 `;
-
 
 const Prices = styled.div`
 	display: grid;
@@ -61,7 +59,6 @@ const HeaderText = styled.h3`
 	margin: 0;
 	font-weight: 400;
 `;
-
 
 const Loader = styled.div`
 	height: 20px;
@@ -101,7 +98,6 @@ const ButtonContainer = styled.div`
 	align-items: center;
 	justify-content: flex-end;
 	width: 100%;
-	background-color: mistyrose;
 `;
 
 const BrandBottom = styled.div`
@@ -280,7 +276,7 @@ class BadgerButton extends React.Component<Props, State> {
 			<Main color1={color1} color2={color2} color3={color3}>
 				<HeaderText>{text}</HeaderText>
 				<Prices>
-					<PriceText style={{ textAlign: 'right'}}>
+					<PriceText style={{ textAlign: 'right' }}>
 						{getCurrencyPreSymbol(currency)}
 						{formatPriceDisplay(price)} {getCurrencyPostSymbol(currency)}{' '}
 					</PriceText>
@@ -296,33 +292,29 @@ class BadgerButton extends React.Component<Props, State> {
 					)}
 				</Prices>
 				<ButtonContainer>
-					{step === 'fresh' ? (
-						<Button onClick={this.handleClick} color1={color1} color2={color2}>
-							<ButtonText>
-								{tag}
-							</ButtonText>
-						</Button>
-					) : step === 'pending' ? (
-						<Loader>
-							<Filler />
-						</Loader>
-					) : (
-						<CompleteCircle>
-							<FontAwesomeIcon icon={faCheck} />
-						</CompleteCircle>
+					<Button
+						onClick={this.handleClick}
+						color1={color1}
+						color2={color2}
+						step={step}
+					>
+						<ButtonText>{tag}</ButtonText>
+					</Button>
+
+					{showBrand && (
+						<BrandBottom>
+							<Small>
+								<A
+									href="badger.bitcoin.com"
+									target="_blank"
+									color1={color1}
+									color3={color3}
+								>
+									About Badger
+								</A>
+							</Small>
+						</BrandBottom>
 					)}
-					{showBrand && (<BrandBottom>
-						<Small>
-							<A
-								href="badger.bitcoin.com"
-								target="_blank"
-								color1={color1}
-								color3={color3}
-							>
-								About Badger
-							</A>
-						</Small>
-					</BrandBottom>)}
 				</ButtonContainer>
 			</Main>
 		);
